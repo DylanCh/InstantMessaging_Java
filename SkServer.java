@@ -1,3 +1,4 @@
+// HJChen
 // A Server that displays in a window (Swing JFrame)
 
 import java.awt.Color;
@@ -6,7 +7,8 @@ import java.awt.event.ActionEvent; // For events
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.*;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -22,8 +24,8 @@ public class SkServer extends JFrame implements ActionListener{
 	private JTextArea ta= new JTextArea(); // Shows the chatroom 
 	private JPanel pl =new JPanel();
 	
-	private ServerSocket server=null; // Socket for server
-	private ServerSocket client=null; // Socket for client
+	private ServerSocket server=null; // ServerSocket for server
+	private Socket client=null; // Socket for client
 	
 	private InputStream input=null;
 	private OutputStream out=null;
@@ -55,13 +57,13 @@ public class SkServer extends JFrame implements ActionListener{
 		
 		/* Create connection between server and client*/
 		try { //The method blocks until a connection is made
-			server=new ServerSocket(4000);// server started
-			client=server.accept(); // waiting for the client
+			server=new ServerSocket(4000);// server started (port 4000)
+			client=server.accept(); // waiting for the client to connect
+			// (if there's no request for connection, it'll keep waiting)
 			ta.append("Client is connected");
 			input=client.getInputStream();
 			out=client.getOutputStream();
-		} catch(Exception e){
-			//handle exception
+		} catch(Exception e){//handle exception
 			System.out.println("Connection is lost");
 		}
 		
