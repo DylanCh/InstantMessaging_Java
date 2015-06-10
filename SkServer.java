@@ -8,6 +8,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.*;
 import java.net.ServerSocket;
+import java.net.Socket;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -53,6 +54,30 @@ public class SkServer extends JFrame implements ActionListener{
 		});
 		
 		/* Create connection between server and client*/
+		try { //The method blocks until a connection is made
+			server=new ServerSocket(4000);// server started
+			client=server.accept(); // waiting for the client
+			ta.append("Client is connected");
+			input=client.getInputStream();
+			out=client.getOutputStream();
+		} catch(Exception e){
+			//handle exception
+			System.out.println("Connection is lost");
+		}
+		
+		/* Receive messages from client*/
+		while(true){ // infinite loop for messaging
+			try{
+				byte[] buff=new byte[1024]; // use byte array to increase reading speed, 
+				//because i/o streams are strings and slower
+				input.read(buff); // read certain bytes (1024) of data
+				String instr=new String (buff); //message to be shown in the text area
+				ta.append("Client:" + instr + "\n"); // show message in the text area
+				//ta.append("\n"):
+			} catch(Exception e){
+				System.out.println("Connection is lost");
+			} 
+		}
 	}
 	
 	//program entry point
@@ -61,6 +86,12 @@ public class SkServer extends JFrame implements ActionListener{
 	}
 	
 	public void actionPerformed(ActionEvent e){
+		// send messages (back) to client (try-catch)
+		try{
+			tf.getText();
+		}catch(Exception e2){
+			System.out.println("Cannot send message");
+		} 
 		
 	}
 }
