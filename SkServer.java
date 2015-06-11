@@ -31,7 +31,7 @@ public class SkServer extends JFrame implements ActionListener{
 	private OutputStream out=null;
 	
 	public SkServer(){
-		this.setSize(280,300);
+		this.setSize(480,640);
 		ta.setBackground(Color.gray);
 		ta.setFont(new Font("Helvitica",Font.BOLD,12));
 		ta.setForeground(Color.green);
@@ -58,6 +58,7 @@ public class SkServer extends JFrame implements ActionListener{
 		/* Create connection between server and client*/
 		try { //The method blocks until a connection is made
 			server=new ServerSocket(4000);// server started (port 4000)
+			// usually set port to >1023 to avoid conflicts with the system
 			client=server.accept(); // waiting for the client to connect
 			// (if there's no request for connection, it'll keep waiting)
 			ta.append("Client is connected");
@@ -71,11 +72,11 @@ public class SkServer extends JFrame implements ActionListener{
 		while(true){ // infinite loop for messaging
 			try{
 				byte[] buff=new byte[1024]; // use byte array to increase reading speed, 
-				//because i/o streams are strings and slower
+				//because i/o streams are read one char at a time, and therefore slower
 				input.read(buff); // read certain bytes (1024) of data
 				String instr=new String (buff); //message to be shown in the text area
 				ta.append("Client:" + instr + "\n"); // show message in the text area
-				//ta.append("\n"):
+				//ta.append("\n");
 			} catch(Exception e){
 				System.out.println("Connection is lost");
 			} 
@@ -90,10 +91,13 @@ public class SkServer extends JFrame implements ActionListener{
 	public void actionPerformed(ActionEvent e){
 		// send messages (back) to client (try-catch)
 		try{
-			tf.getText();
+			String str=tf.getText(); // get text (message) from the text field
+			byte[] putbuff=str.getBytes();
+			out.write(putbuff); // Send message to client
+			tf.setText("");     // Empty text field (for the next message entry)
+			ta.append("Me:" + str + "\n"); //Show message in the text area
 		}catch(Exception e2){
 			System.out.println("Cannot send message");
 		} 
-		
 	}
 }
