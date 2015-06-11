@@ -26,6 +26,8 @@ public class SkServer extends JFrame implements ActionListener{
 	
 	private ServerSocket server=null; // ServerSocket for server
 	private Socket client=null; // Socket for client
+	final public static int Port = 4000; /*usually set port to >1023 to avoid conflicts with the system.
+			no need for address since it's a local simulation*/
 	
 	private InputStream input=null;
 	private OutputStream out=null;
@@ -57,10 +59,10 @@ public class SkServer extends JFrame implements ActionListener{
 		
 		/* Create connection between server and client*/
 		try { //The method blocks until a connection is made
-			server=new ServerSocket(4000);// server started (port 4000)
-			// usually set port to >1023 to avoid conflicts with the system
-			client=server.accept(); // waiting for the client to connect
-			// (if there's no request for connection, it'll keep waiting)
+			server=new ServerSocket(Port);/* server started (port 4000). */
+			System.out.println("Waiting for connections ...");
+			client=server.accept(); /* waiting for the client to connect
+			(if there's no request for connection, it'll keep waiting) */
 			ta.append("Client is connected");
 			input=client.getInputStream();
 			out=client.getOutputStream();
