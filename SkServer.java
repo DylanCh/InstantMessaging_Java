@@ -1,17 +1,20 @@
 // HJChen
 // A Server that displays in a window (Swing JFrame)
 
+//import java.awt.Button;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent; // For events
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -23,6 +26,7 @@ public class SkServer extends JFrame implements ActionListener{
 	private JTextField tf = new JTextField(18);
 	private JTextArea ta= new JTextArea(); // Shows the chatroom 
 	private JPanel pl =new JPanel();
+	private JButton sendButton=new JButton("SEND");
 	
 	private ServerSocket server=null; // ServerSocket for server
 	private Socket client=null; // Socket for client
@@ -32,7 +36,7 @@ public class SkServer extends JFrame implements ActionListener{
 	private InputStream input=null;
 	private OutputStream out=null;
 	
-	public SkServer(){
+	public SkServer() {
 		this.setSize(480,640);
 		ta.setBackground(Color.gray);
 		ta.setFont(new Font("Helvitica",Font.BOLD,12));
@@ -41,6 +45,13 @@ public class SkServer extends JFrame implements ActionListener{
 		label.setFont(new Font("Helvitica",Font.BOLD,15));
 		pl.add(label); // insert label into the panel
 		pl.add(tf); //insert text field into the panel
+		pl.add(sendButton);
+		// Adding event to the Send button
+		sendButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                // send the message 
+            }
+        });
 		
 		/* Layouts */
 		this.add("North",pl); //upper area in the panel
@@ -48,9 +59,10 @@ public class SkServer extends JFrame implements ActionListener{
 		this.setTitle("Server"); // window title
 		this.setLocationRelativeTo(null); // center the window
 		this.setVisible(true);            // make the window visible
+		this.setResizable(true);
 		
-		/* Events */
-		tf.addActionListener(this); // Press "Enter" after text entry in the text field
+		/* Window closing event */
+		tf.addActionListener(this); 
 		addWindowListener(new WindowAdapter(){ // Exit when clicking "X"
 			public void windowClosing(WindowEvent e){
 				System.exit(0);
@@ -86,7 +98,7 @@ public class SkServer extends JFrame implements ActionListener{
 	}
 	
 	//program entry point
-	public static void main(String[] args){
+	public static void main(String[] args)throws NullPointerException{
 		new SkServer();
 	}
 	
