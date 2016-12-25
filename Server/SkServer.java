@@ -1,5 +1,7 @@
-// HJChen
-// A Server that displays in a window (Swing JFrame)
+package Server;
+
+//HJChen
+//A Server that displays in a window (Swing JFrame)
 
 //import java.awt.Button;
 import java.awt.Color;
@@ -8,7 +10,7 @@ import java.awt.event.ActionEvent; // For events
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.IOException;
+//import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.ServerSocket;
@@ -21,7 +23,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-public class SkServer extends JFrame implements ActionListener{
+public class SkServer extends JFrame implements ActionListener,Runnable{
 	private JLabel label = new JLabel("Let's Chat!");
 	private JTextField tf = new JTextField(18);
 	private JTextArea ta= new JTextArea(); // Shows the chatroom 
@@ -70,6 +72,10 @@ public class SkServer extends JFrame implements ActionListener{
 		});
 		
 		/* Create connection between server and client*/
+		
+	}
+	
+	public void run(){
 		try { //The method blocks until a connection is made
 			server=new ServerSocket(Port);/* server started (port 4000). */
 			System.out.println("Waiting for connections ...");
@@ -94,12 +100,7 @@ public class SkServer extends JFrame implements ActionListener{
 			} catch(Exception e){
 				System.out.println("Connection is lost");
 			} 
-		}
-	}
-	
-	//program entry point
-	public static void main(String[] args)throws NullPointerException{
-		new SkServer();
+		}// end while
 	}
 	
 	public void actionPerformed(ActionEvent e){
