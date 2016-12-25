@@ -6,7 +6,7 @@ public class MainClient {
 
 	public static void main(String[] args)  {
 		// TODO Auto-generated method stub
-		Client client = new Client(4000,null);
+		Client client = new Client(4000,"");
 		client.start(false);
 		client.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
