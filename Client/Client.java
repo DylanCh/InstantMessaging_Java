@@ -11,6 +11,8 @@ import Server.Server;
 import javax.swing.*;
 
 public class Client extends JFrame implements ActionListener{
+
+	private static final long serialVersionUID = 1L;
 	private int port;
 	private JTextField userText;
 	private JTextArea chatWindow;
@@ -41,6 +43,7 @@ public class Client extends JFrame implements ActionListener{
 		this.setVisible(true);
 		
 	}
+	
 	private void setupStreams(){
 		try {
 			output= new ObjectOutputStream(s.getOutputStream());
@@ -88,6 +91,8 @@ public class Client extends JFrame implements ActionListener{
 				s = new Socket(InetAddress.getByName(serverAddress), port);
 			else s=new Socket(serverAddress,Server.getPortNumber());
 			showMessage("connected to"+s.getInetAddress().getHostName());
+			setupStreams();
+			chatting();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -132,7 +137,7 @@ public class Client extends JFrame implements ActionListener{
 					public void run(){
 						chatWindow.append(message);
 					}
-				};
+				}
 		);
 	}
 
@@ -140,13 +145,10 @@ public class Client extends JFrame implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		if(e.getSource()==userText){
-			sendData(e.getActionCommand());
+			senMessage(e.getActionCommand());
 			userText.setText("");
 		}
 	}
 
-	private void sendData(String actionCommand) {
-		// TODO Auto-generated method stub
-		
-	}
+	
 }
