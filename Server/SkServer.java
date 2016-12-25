@@ -49,11 +49,14 @@ public class SkServer extends JFrame implements ActionListener,Runnable{
 		pl.add(tf); //insert text field into the panel
 		pl.add(sendButton);
 		// Adding event to the Send button
-		sendButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                // send the message 
-            }
-        });
+		sendButton.addActionListener(
+//				new ActionListener() {
+//            public void actionPerformed(ActionEvent e) {
+//                // send the message 
+//            }
+//        }
+				this
+		);
 		
 		/* Layouts */
 		this.add("North",pl); //upper area in the panel
